@@ -16,10 +16,10 @@ const Left = ()=>{
             <p>img</p>
 
             <div>
-                <p>grade</p>
-                <div>
-                    <p>zi</p>
-                    <p>ora</p>
+                <p className="font-bold text-2xl">grade</p>
+                <div className="flex gap-3">
+                    <p>zi, </p>
+                    <p className='text-black/40'>ora</p>
                 </div>
             </div>
             <div >

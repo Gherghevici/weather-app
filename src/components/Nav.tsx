@@ -2,7 +2,7 @@ import React from 'react'
 
 const Nav = ()=>{
     return (
-        <section className='flex w-4/6 justify-between px-6 py-10'>
+        <section className='flex w-1/5 justify-between px-6 pt-10'>
             <div className='flex gap-3 font-semibold text-xl'>
                 <p>Today</p>
                 <p>Week</p>
