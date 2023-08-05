@@ -6,15 +6,17 @@ import BigCard from '../components/BigCard';
 import Right from '../components/Right';
 import {CityApiCallFor5Days,LatLongApiCallFor5Days} from '../utils/api';
 
-interface data {
-  coord:{lat:number,lon:number},
-  country:string,
-  id:number,
-  name:string,
-  population:number,
-  sunrize:number,
-  sunset:number,
-  timezone:number,
+interface IData {
+  city:{
+    coord:{lat:number,lon:number},
+   country:string,
+    id:number,
+    name:string,
+    population:number,
+    sunrize:number,
+    sunset:number,
+    timezone:number,
+  }
   cnt:number,
   cod:string,
   list:{
@@ -32,7 +34,7 @@ interface data {
 }
 
 function App() {
-  const [data,setData] = useState<data>();
+  const [data,setData] = useState<IData>();
   const [city,setCity] = useState<string>("");
   const [celFar,setCelFar] = useState<string>("metric");
   const [lat, setLat] = useState<number>(Number(window.localStorage.getItem('lat')));
@@ -71,15 +73,15 @@ function App() {
   //api call to cel/far based of cords
   useEffect(() => {
     city.length===0?latLong():getData(city);
-  }, [data]);
+  }, []);
   
 
 
   return (
     <>
       <main className='bg-gray-100/75 w-4/5 h-3/4 rounded-xl flex flex-row'>
-      <Left description={data?.list[0].weather[0].description} humidity={data?.list[0].main?.humidity} icon={data?.list[0].weather[0].icon} name={data?.name} temp={data?.list[0].main?.temp} time={data?.list[0].dt_txt} units={celFar} gettingCity={gettingCity} />
-     { data?<Right lat={lat} long={long} unitsType={celFar} city={city} gettingCelFar={gettingCelFar}></Right>:null}
+      <Left data={data} units={celFar} gettingCity={gettingCity} />
+      <Right lat={lat} long={long} unitsType={celFar} city={city} gettingCelFar={gettingCelFar}></Right>
     </main>
     
     </>

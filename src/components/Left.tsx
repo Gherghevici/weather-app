@@ -5,19 +5,40 @@ import {
   faLocationCrosshairs,
   faChartSimple,
 } from '@fortawesome/free-solid-svg-icons';
+interface IData {
+  city:{
+    coord:{lat:number,lon:number},
+   country:string,
+    id:number,
+    name:string,
+    population:number,
+    sunrize:number,
+    sunset:number,
+    timezone:number,
+  }
+  cnt:number,
+  cod:string,
+  list:{
+    clouds:{all:number},
+    dt:number,
+    dt_txt:string,
+    main:{feels_like:number,grnd_level:number,humidity:number,pressure:number,sea_level:number,temp:number,temp_kf:number,temp_max:number,temp_min:number},
+    pop:number,
+  sys:{pod:string},
+  visibility:number,
+  weather:[{description:string,icon:string,id:number,main:string}]
+  length:number
+  }[],
+  
+}
 
-interface props{
-  icon:string|undefined,
-  temp:number|undefined,
-  units:string|undefined,
-  time:string|undefined,
-  description:string|undefined,
-  humidity:number|undefined,
-  name:string|undefined,
+interface IProps{
+  data:IData|undefined,
+  units:string,
   gettingCity(val:string):any
 }
 
-const Left = (props:props) => {
+const Left = (props:IProps) => {
   const [time, setTime] = useState(new Date());
   const [city, setCity] = useState<string>('');
   
@@ -52,30 +73,30 @@ const Left = (props:props) => {
       <div className="flex items-center justify-center">
         <img
           className="w-2/4"
-          src={`https://openweathermap.org/img/wn/${props.icon}@4x.png`}
+          src={`https://openweathermap.org/img/wn/${props.data?.list[0].weather[0].icon}@4x.png`}
           alt="da"
         ></img>
       </div>
 
       <div>
         <p className="font-bold text-2xl">
-          {props.temp.toString().split('.')[0]} {props.units==="metric"?"C":"F"}&deg;
+          {props.data?.list[0].main.temp.toString().split('.')[0]} {props.units==="metric"?"C":"F"}&deg;
         </p>
         <div className="flex gap-3">
-          <p>{props.time.slice(0, 3)},</p>
-          <p className="text-black/40">{props.time.slice(15, 21)}</p>
+          <p>{new Date(`${props.data?.list[0].dt_txt}`).toString().slice(0,3)},</p>
+          <p className="text-black/40"> {new Date().toString().slice(15,21)}</p>
         </div>
       </div>
       <div>
         <div className="flex items-center justify-between">
           <img
             className="w-1/4 h-1/4"
-            src={`https://openweathermap.org/img/wn/${props.icon}@4x.png`}
+            src={`https://openweathermap.org/img/wn/${props.data?.list[0].weather[0].icon}@4x.png`}
             alt="da"
           ></img>
           <p>
-            {props.description.toString()[0].toLocaleUpperCase()}
-            {props.description.toString().slice(1)}
+            {props.data?.list[0].weather[0].description.toString()[0].toLocaleUpperCase()}
+            {props.data?.list[0].weather[0].description.toString().slice(1)}
           </p>
         </div>
         <div className="flex items-center justify-between">
@@ -83,10 +104,10 @@ const Left = (props:props) => {
             icon={faChartSimple}
             className="w-10 h-10 rotate-180 text-blue-600"
           />
-          <p>Humidity - {props.humidity} %</p>
+          <p>Humidity - {props.data?.list[0].main.humidity} %</p>
         </div>
       </div>
-      <p className='flex justify-center'>{props.name}</p>
+      <p className='flex justify-center'>{props.data?.city.name}</p>
     </section>
   );
 };
