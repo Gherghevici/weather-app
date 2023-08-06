@@ -12,7 +12,7 @@ interface IData {
     id:number,
     name:string,
     population:number,
-    sunrize:number,
+    sunrise:number,
     sunset:number,
     timezone:number,
   }
@@ -26,9 +26,9 @@ interface IData {
     pop:number,
   sys:{pod:string},
   visibility:number,
-  weather:[{description:string,icon:string,id:number,main:string}]
-  length:number
-  }[],
+  weather:[{description:string,icon:string,id:number,main:string}],
+  wind:{deg:number,gust:number,speed:number}
+  }[]
   
 }
 
@@ -53,16 +53,16 @@ const Left = (props:IProps) => {
 
 
   return (
-    <section className="bg-amber-200 w-1/3 rounded-l-xl flex flex-col justify-between px-6 py-10">
+    <section className="bg-slate-300/90 w-1/4 rounded-l-xl flex flex-col justify-between px-6 py-5">
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
-            className="pt-1"
+            className="pt-1 cursor-pointer"
             onClick={setCityonClickHandler}
           />
           <input
-            className="w-2/3 bg-transparent outline-none"
+            className="w-2/3 bg-transparent outline-none "
             placeholder="Search for places..."
             value={city}
             onChange={(e) => setCity(e.target.value)}

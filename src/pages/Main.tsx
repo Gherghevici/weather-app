@@ -2,7 +2,7 @@ import React, { useEffect,useState } from 'react';
 import Left from '../components/Left';
 import Nav from '../components/Nav';
 import SmallCard from '../components/SmallCard';
-import BigCard from '../components/BigCard';
+import BigCard from '../components/BigCards/BigCardWind';
 import Right from '../components/Right';
 import {CityApiCallFor5Days,LatLongApiCallFor5Days} from '../utils/api';
 
@@ -13,7 +13,7 @@ interface IData {
     id:number,
     name:string,
     population:number,
-    sunrize:number,
+    sunrise:number,
     sunset:number,
     timezone:number,
   }
@@ -27,9 +27,9 @@ interface IData {
     pop:number,
   sys:{pod:string},
   visibility:number,
-  weather:[{description:string,icon:string,id:number,main:string}]
-  length:number
-  }[],
+  weather:[{description:string,icon:string,id:number,main:string}],
+  wind:{deg:number,gust:number,speed:number}
+  }[]
   
 }
 
@@ -37,8 +37,6 @@ function App() {
   const [data,setData] = useState<IData>();
   const [city,setCity] = useState<string>("");
   const [celFar,setCelFar] = useState<string>("metric");
-  const [lat, setLat] = useState<number>(Number(window.localStorage.getItem('lat')));
-  const [long, setLong] = useState<number>(Number(window.localStorage.getItem('long')));
   //setting global values
   const gettingCelFar=(val:string)=>{
     setCelFar(val);
@@ -47,6 +45,7 @@ function App() {
     setCity(val);
   }
   console.log(data);
+ 
   //Get current location via geo location!
   const getLocalCity = (pos: GeolocationPosition) => {
     window.localStorage.setItem('lat', `${pos.coords.latitude}`);
@@ -54,7 +53,6 @@ function App() {
   };
   navigator.geolocation.getCurrentPosition(getLocalCity);
  
-  
   //get data
   const getData = async (city: string) => {
     try {
@@ -67,21 +65,22 @@ function App() {
   };
 
   const latLong = async () => {
-    const aux = await LatLongApiCallFor5Days(lat,long,celFar);
+    const aux = await LatLongApiCallFor5Days(Number(window.localStorage.getItem('lat')),Number(window.localStorage.getItem('long')),celFar);
     setData((prev)=>prev=aux);
   };
   //api call to cel/far based of cords
   useEffect(() => {
     city.length===0?latLong():getData(city);
-  }, []);
+  }, [city,celFar]);
   
 
 
   return (
+    
     <>
-      <main className='bg-gray-100/75 w-4/5 h-3/4 rounded-xl flex flex-row'>
+      <main className='bg-gray-100/75 w-4/5 h-4/5 rounded-xl flex flex-row border-2 border-black/30'>
       <Left data={data} units={celFar} gettingCity={gettingCity} />
-      <Right lat={lat} long={long} unitsType={celFar} city={city} gettingCelFar={gettingCelFar}></Right>
+      <Right  data={data}unitsType={celFar} city={city} gettingCelFar={gettingCelFar}></Right>
     </main>
     
     </>
