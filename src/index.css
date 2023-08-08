@@ -22,3 +22,9 @@ code {
     align-items: center;
     background-color: rgba(156,163,175,0.65);
 }
+body{
+  background-color: rgba(156,163,175,0.65);
+}
+body.dark{
+  background-color: rgb(31 41 55);
+}

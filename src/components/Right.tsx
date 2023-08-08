@@ -48,16 +48,16 @@ const Right = (props: IProps) => {
     }
 
   return (
-    <div className="flex flex-col gap-5 px-6 w-4/5">
+    <div className="flex flex-col gap-5   px-6 dark:bg-gray-600  bg-gray-200 lg:w-4/5 lg:rounded-r-xl ">
       <Nav dayWeek={dayWeek} gettingDayWeek={gettingDayWeek} unitsType={props.unitsType} passingMetric={props.gettingCelFar} />
-      <div className="flex justify-around">
+      <div className="flex flex-col sm:flex-row gap-5">
       {
         dayWeek=="day"?
         props.data?.list.map((val,index)=>{
         
           return(
             index<5?
-            <span key={index}>
+            <span key={index} className="w-full flex sm:items-start items-start justify-center">
                 <SmallCard time={val.dt_txt.split(" ")[1].slice(0,5).toString()} key={index} title={new Date(val.dt_txt).toString().slice(0,3)} image={val.weather[0].icon} max={Number(val.main.temp_max.toString().split(".")[0])}></SmallCard>
             </span>
             :
@@ -68,7 +68,7 @@ const Right = (props: IProps) => {
         
           return(
             val.dt_txt.toString().split(" ")[1].split(":")[0]==="12"?
-            <span key={index}>
+            <span key={index} className="w-full flex items-center justify-center">
                 <SmallCard key={index} time={val.dt_txt.split(" ")[1].slice(0,5).toString()} title={new Date(val.dt_txt).toString().slice(0,3)} image={val.weather[0].icon} max={Number(val.main.temp_max.toString().split(".")[0])}></SmallCard>
             </span>
             :
@@ -79,8 +79,8 @@ const Right = (props: IProps) => {
       }
       
       </div>
-      <h1 className="font-semibold text-xl">Today's Highlights</h1>
-      <div className="flex justify-around">
+      <h1 className="font-semibold text-2xl lg:text-xl flex justify-center md:justify-start">Today's Highlights</h1>
+      <div className="flex flex-col gap-5 sm:flex-row items-center md:items-start ">
        <BigCardWind title="Wind Status" windSpeed={`${props.data?.list[0].wind.speed} km/h`} deg={props.data?.list[0].wind.deg}/>
        <BigCardSunrise title="Sunrise & Sunset" sunrise={props.data?.city.sunrise} sunset={props.data?.city.sunset} timezone={props.data?.city.timezone} />
       <BigCardVisibility title="Visibility" visibility={`${props.data?.list[0].visibility} km`}/>

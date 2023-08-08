@@ -15,8 +15,8 @@ const BigCardWind = (props:IProps)=>{
     const index = Math.round((deg %= 360) < 0 ? deg + 360 : deg / 45) % 8;
 
     return(
-        <div className='bg-gray-100 w-56 h-40 rounded-xl p-2 pl-4 flex flex-col justify-between'>
-            <h3 className='text-black/40'>{props.title}</h3>
+        <div className='dark:bg-indigo-400 bg-slate-300 w-56 h-40 rounded-xl p-2 pl-4 flex flex-col justify-between'>
+            <h3 className='dark:text-slate-100/60 text-black/40'>{props.title}</h3>
             <p className='text-4xl font-medium'>{props.windSpeed.split(" ")[0]} <span className='text-lg font-normal'>{props.windSpeed.split(" ")[1]}</span></p>
             <div className='flex items-center gap-5'>
                 <FontAwesomeIcon icon={faCompass} className='text-xl' />

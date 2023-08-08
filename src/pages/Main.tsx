@@ -57,10 +57,14 @@ function App() {
   const getData = async (city: string) => {
     try {
       const aux = await CityApiCallFor5Days(city,celFar);
-      if (aux.cod != 404) setData((prev)=>prev=aux);
+      if (aux.cod != 404) {
+        setData((prev)=>prev=aux)
+        document.getElementById("searchBar")?.classList.remove(...["border-2","border-red-700","transition-all","duration-75","animate-pulse"])
+      }
       else throw new Error();
     } catch (err) {
       console.log(err);
+      document.getElementById("searchBar")?.classList.add(...["border-2","border-red-700","transition-all","duration-75","animate-pulse"])
     }
   };
 
@@ -78,7 +82,7 @@ function App() {
   return (
     
     <>
-      <main className='bg-gray-100/75 w-4/5 h-4/5 rounded-xl flex flex-row border-2 border-black/30'>
+      <main className='dark:bg-gray-600/80 bg-gray-100/75 dark:text-slate-100/90 w-full h-full lg:w-4/5 lg:h-4/5 2xl:w-3/4 2xl:h-3/4 lg:rounded-xl flex flex-col sm:flex-row  lg:border-2  border-black/30 '>
       <Left data={data} units={celFar} gettingCity={gettingCity} />
       <Right  data={data}unitsType={celFar} city={city} gettingCelFar={gettingCelFar}></Right>
     </main>
